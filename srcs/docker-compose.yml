@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  mariadb:
+    container_name: mariadb
+    volumes:
+      -/home/vboxuser/Desktop/incep/volume:/home/vboxuser/Desktop/incep/volume
+    networks:
+      - inception
+    
