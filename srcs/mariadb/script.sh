@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 service mariadb start 
 
 mariadb -e "CREATE DATABASE IF NOT EXISTS wordpress;"

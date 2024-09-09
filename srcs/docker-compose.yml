@@ -1,10 +1,52 @@
-version: '3'
-
 services:
   mariadb:
+    build: 
+      context: ./mariadb
+      dockerfile: Dockerfile
     container_name: mariadb
     volumes:
-      -/home/vboxuser/Desktop/incep/volume:/home/vboxuser/Desktop/incep/volume
+     - data:/var/lib/mysql
     networks:
       - inception
     
+  wordpress:
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    volumes:
+      - wordpress:/var/www/html/
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+
+  nginx:
+    build:
+      context: /home/vboxuser/Desktop/incep/srcs/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - 443:443
+    volumes:
+      - wordpress:/var/www/html/
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+
+  
+    
+networks:
+  inception:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/vboxuser/Desktop/incep/volume
+  wordpress:
+  
